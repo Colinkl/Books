@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Books.Data.Models
+namespace Books.Core.Models
 {
-    public class Location
+    public class StorageUnit
     {
         public int Id { get; set; }
 

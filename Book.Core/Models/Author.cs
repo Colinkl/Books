@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Books.Data.Models
+namespace Books.Core.Models
 {
     public class Author
     {
@@ -12,7 +12,7 @@ namespace Books.Data.Models
 
         public string LastName { get; set; }
 
-        public List<Book> Books { get; set; }
+        public List<Book> BookList { get; set; } = new List<Book>();
 
 
     }
