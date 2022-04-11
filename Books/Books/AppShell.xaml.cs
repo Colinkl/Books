@@ -1,7 +1,4 @@
-﻿using Books.ViewModels;
-using Books.Views;
-using System;
-using System.Collections.Generic;
+﻿using Books.Views;
 using Xamarin.Forms;
 
 namespace Books

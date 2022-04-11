@@ -1,8 +1,8 @@
 ﻿using Books.Core;
 using Books.Core.Repositories;
 using Books.Data.Repositories;
-using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Books.Data
 {
@@ -15,20 +15,20 @@ namespace Books.Data
         private StorageUnitRepository storageUnitRepository;
         private UserRepository userRepository;
 
-        public UnitOfWork(LibraryDbContext context)
+        public UnitOfWork()
         {
-            _context = context;
+            _context = DependencyService.Get<LibraryDbContext>();
         }
 
-        public IAuthorRepository Authors => authorRepository = authorRepository ?? new AuthorRepository(_context);
+        public IAuthorRepository Authors => authorRepository ??= new AuthorRepository(_context);
 
-        public IBookRepository Books => bookRepository = bookRepository ?? new BookRepository(_context);
+        public IBookRepository Books => bookRepository ??= new BookRepository(_context);
 
-        public IGenreRepository Genres =>genreRepository = genreRepository ?? new GenreRepository(_context);
+        public IGenreRepository Genres => genreRepository ??= new GenreRepository(_context);
 
-        public IStorageUnitRepository StorageUnits => storageUnitRepository = storageUnitRepository ?? new StorageUnitRepository(_context);
+        public IStorageUnitRepository StorageUnits => storageUnitRepository ??= new StorageUnitRepository(_context);
 
-        public IUserRepository Users => userRepository = userRepository ?? new UserRepository(_context);
+        public IUserRepository Users => userRepository ??= new UserRepository(_context);
 
         public async Task<int> CommitAsync()
         {

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Books.Views.BooksPage"
+             Title="{Binding Title}"
+             xmlns:model ="clr-namespace:Books.Core.Models;assembly=Books.Core"
+             xmlns:local ="clr-namespace:Books.ViewModels"
+             x:Name="BrowseBooksPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:BooksViewModel" Command="{Binding LoadBooksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="BooksListView"
+                        ItemsSource="{Binding BooksList}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <FlexLayout Direction="Column" x:DataType="model:Book">
+                        <Label Text="{Binding Title}"
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemTextStyle }"
+                               FontSize="20" />
+                        <CollectionView ItemsSource="{Binding Authors}"
+                                        ItemsLayout="HorizontalList">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Author">
+                                    <FlexLayout Padding="10" Direction="Row">
+                                        <Label Text="{Binding Name}" />
+                                        <Label Text=" " />
+                                        <Label Text="{Binding LastName}" />
+                                    </FlexLayout>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                        <CollectionView ItemsSource="{Binding Genres}"
+                                        ItemsLayout="HorizontalList">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Genre">
+                                    <FlexLayout Padding="10" Direction="Row">
+                                        <Label Text="{Binding Name}" />
+                                    </FlexLayout>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+
+                    </FlexLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

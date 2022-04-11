@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Books.Models
+﻿namespace Books.Models
 {
     public class Item
     {

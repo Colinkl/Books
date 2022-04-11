@@ -1,16 +1,17 @@
 ﻿using Books.Core.Models;
 using Books.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Books.Data.Repositories
 {
     public class BookRepository : Repository<Book>, IBookRepository
     {
-        public BookRepository(DbContext context) : base(context)
+        public BookRepository(LibraryDbContext context)
         {
         }
+
+
     }
 }

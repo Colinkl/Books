@@ -1,9 +1,6 @@
 ﻿using Books.Core.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Xamarin.Essentials;
 
 namespace Books.Data
@@ -26,6 +23,7 @@ namespace Books.Data
         public LibraryDbContext()
         {
             SQLitePCL.Batteries_V2.Init();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -35,6 +33,8 @@ namespace Books.Data
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, "data.db3");
 
             optionsBuilder
+                .UseLazyLoadingProxies()
+                .EnableSensitiveDataLogging()
                 .UseSqlite($"Filename={dbPath}");
 
 
@@ -66,7 +66,7 @@ namespace Books.Data
             modelBuilder.Entity<User>().HasData(new User[]
             {
                 new User { Id = 1, Name ="Test1", Key = "1234", Image= "https://i.ibb.co/KbPZtXK/A0-LXMSyhr-F4.jpg"},
-                new User { Id = 2, Name ="Customer", Key = "0000", Image = "https://www.shadertoy.com/media/users/hvhnts/profile.jpeg"}
+                new User { Id = 10, Name ="Customer", Key = "0000", Image = "https://www.shadertoy.com/media/users/hvhnts/profile.jpeg"}
 
             });
             modelBuilder.Entity<Book>().HasData(new Book[]
@@ -77,34 +77,13 @@ namespace Books.Data
                     Descripton = "SuperBook",
                     Image = "https://www.uselessthingstobuy.com/wp-content/uploads/2019/05/Screen-Shot-2019-05-22-at-11.50.41-AM.png"}
                 });
-            modelBuilder.Entity<Book>()
-                .HasMany(p => p.Genres)
-                .WithMany(t => t.Books)
-                .UsingEntity<Dictionary<string, object>>(
-                "BookGenre",
-                r => r.HasOne<Genre>().WithMany().HasForeignKey("GenreId"),
-                l => l.HasOne<Book>().WithMany().HasForeignKey("BookId"),
-                je =>
-                {
-                    je.HasKey("BookId", "GenreId");
-                    je.HasData(
-                        new { BookId = 1, GenreId = 1 },
-                        new { BookId = 1, GenreId = 2 });
-                });
-            modelBuilder.Entity<Book>()
-                .HasMany(p => p.Authors)
-                .WithMany(t => t.BookList)
-                .UsingEntity<Dictionary<string, object>>(
-                "BookAuthor",
-                r => r.HasOne<Author>().WithMany().HasForeignKey("AuthorId"),
-                l => l.HasOne<Book>().WithMany().HasForeignKey("BookId"),
-                je =>
-                {
-                    je.HasKey("BookId", "AuthorId");
-                    je.HasData(
-                        new { BookId = 1, AuthorId = 1 },
-                        new { BookId = 1, AuthorId = 2 });
-                });
+
+            modelBuilder.Entity("BookGenre").HasData(
+                new { BooksId = 1, GenresId = 1 },
+                new { BooksId = 1, GenresId = 2 });
+            modelBuilder.Entity("AuthorBook").HasData(
+                new { AuthorsId = 1, BookListId = 1 },
+                new { AuthorsId = 2, BookListId = 1 });
 
         }
 

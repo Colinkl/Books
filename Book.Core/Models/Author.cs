@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Books.Core.Models
 {
@@ -12,8 +10,12 @@ namespace Books.Core.Models
 
         public string LastName { get; set; }
 
-        public List<Book> BookList { get; set; } = new List<Book>();
+        public virtual List<Book> BookList { get; set; } = new List<Book>();
 
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", Name, LastName);
+        }
 
     }
 }

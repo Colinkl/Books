@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="5.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.15" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
@@ -18,5 +19,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Book.Core\Books.Core.csproj" />
     <ProjectReference Include="..\..\Books.Data\Books.Data.csproj" />
+    <ProjectReference Include="..\..\Books.Services\Books.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\BooksPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

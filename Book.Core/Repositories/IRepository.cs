@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Books.Core.Models;
 using System.Threading.Tasks;
 
 namespace Books.Core.Repositories
@@ -14,6 +13,7 @@ namespace Books.Core.Repositories
         Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
+        void UpdateAsync(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
     }

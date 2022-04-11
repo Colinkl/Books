@@ -1,10 +1,8 @@
-﻿using Books.Data;
-using Books.Services;
-using Books.Views;
-using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Books.Core;
+using Books.Data;
 using Microsoft.EntityFrameworkCore;
+using Xamarin.Forms;
+
 namespace Books
 {
     public partial class App : Application
@@ -18,8 +16,8 @@ namespace Books
                 db.Database.Migrate();
             }
 
-
-            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<LibraryDbContext>();
+            DependencyService.Register<IUnitOfWork, UnitOfWork>();
             MainPage = new AppShell();
         }
 

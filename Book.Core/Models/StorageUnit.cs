@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Books.Core.Models
 {
@@ -14,6 +12,11 @@ namespace Books.Core.Models
 
         public int Rack { get; set; }
 
-        public Book Book { get; set; }
+        public override string ToString()
+        {
+            return String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
+        }
+
+        public virtual Book Book { get; set; }
     }
 }

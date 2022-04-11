@@ -1,10 +1,6 @@
 ﻿using Books.Models;
 using Books.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Books.Views
 {

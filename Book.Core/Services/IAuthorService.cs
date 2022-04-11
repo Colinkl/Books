@@ -8,8 +8,9 @@ namespace Books.Core.Services
     {
         Task<IEnumerable<Author>> GetAllAuthors();
         Task<Author> GetAuthorById(int id);
-        Task<Author> CreateAuthor(Author newAuthor);
-        Task UpdateAuthor(Author AuthorToBeUpdated, Author Author);
+        IEnumerable<Author> FindAuthorByName(string name);
+        Task CreateAuthor(Author newAuthor);
+        Task UpdateAuthor(Author Author);
         Task DeleteAuthor(Author Author);
     }
 }

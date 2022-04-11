@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Books.Core.Models;
 
 namespace Books.Core.Repositories
 {
-    public interface IAuthorRepository
+    public interface IAuthorRepository : IRepository<Author>
     {
 
     }

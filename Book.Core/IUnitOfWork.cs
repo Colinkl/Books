@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Books.Core.Repositories;
+using System;
 using System.Threading.Tasks;
-using Books.Core.Repositories;
 
 namespace Books.Core
 {

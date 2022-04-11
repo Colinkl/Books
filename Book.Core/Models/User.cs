@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Books.Core.Models
 {
@@ -14,7 +12,7 @@ namespace Books.Core.Models
 
         public string Image { get; set; }
 
-        public List<Book> Books { get; set; }
+        public virtual List<Book> Books { get; set; }
 
     }
 }
