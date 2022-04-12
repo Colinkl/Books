@@ -1,35 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Books.Core.Models;
-using Books.Core.Services;
+﻿using Books.Core.Models;
 using Books.Services;
+using Books.Views;
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Books.ViewModels
 {
     public class BooksViewModel : BaseViewModel
     {
+
         public ObservableCollection<Book> BooksList { get; set; }
         public Command LoadBooksCommand { get; }
         public Command AddBooksCommand { get; }
         public Command<Book> BookTapped { get; }
 
-        private readonly BookService bookService;
 
         public BooksViewModel()
         {
             Title = "Books Library";
-
-            bookService = new BookService();
             BooksList = new ObservableCollection<Book>();
 
-            LoadBooksCommand = new Command(async() => await ExecuteLoadBooksCommand());
+
+            BookTapped = new Command<Book>(OnBookSelected);
+            LoadBooksCommand = new Command(async () => await ExecuteLoadBooksCommand());
         }
+
+        public void OnAppearing()
+        {
+            IsBusy = true;
+            SelectedBook = null;
+        }
+
+
+        private Book selectedBook;
+        public Book SelectedBook
+        {
+            get => selectedBook;
+            set
+            {
+                SetProperty(ref selectedBook, value);
+                OnBookSelected(value);
+            }
+        }
+
+        private async void OnBookSelected(Book book)
+        {
+            if (book == null)
+                return;
+            await Shell.Current.GoToAsync($"{nameof(BookDetailPage)}?{nameof(BookDetailViewModel.BookId)}={book.Id}");
+        }
+
 
         async Task ExecuteLoadBooksCommand()
         {
@@ -38,18 +60,6 @@ namespace Books.ViewModels
             {
                 BooksList.Clear();
                 var books = await bookService.GetAllBooks();
-                foreach (var b in books)
-                {
-                    foreach (var a in b.Authors)
-                    {
-                        Debug.WriteLine(a);
-                    }
-                    foreach (var g in b.Genres)
-                    {
-                        Debug.WriteLine(g);
-                    }
-                }
-                
                 foreach (var book in books)
                 {
                     BooksList.Add(book);

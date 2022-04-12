@@ -11,18 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace Books.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BooksPage : ContentPage
+    public partial class BookDetailPage : ContentPage
     {
-        BooksViewModel viewModel;
-        public BooksPage()
+        public BookDetailPage()
         {
             InitializeComponent();
-            BindingContext = viewModel = new BooksViewModel();
-        }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-           viewModel.OnAppearing();
+            BindingContext = new BookDetailViewModel();
         }
     }
 }

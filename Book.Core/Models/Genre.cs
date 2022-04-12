@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Books.Core.Models
 {
@@ -10,7 +11,7 @@ namespace Books.Core.Models
 
         public override string ToString()
         {
-            return Name;
+            return String.Format("{0}", Name);
         }
 
         public virtual List<Book> Books { get; set; }

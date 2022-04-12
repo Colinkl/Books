@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Books.Views.BookDetailPage"
+             Title ="{Binding Title}"
+             xmlns:model ="clr-namespace:Books.Core.Models;assembly=Books.Core"
+             xmlns:local ="clr-namespace:Books.ViewModels">
+    <Grid x:Name="BookDetails">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0"
+               Grid.ColumnSpan="2"
+               Text="{Binding BookTitle}" 
+               LineBreakMode="NoWrap"
+               Style="{DynamicResource ListItemTextStyle }"
+               FontSize="25" />
+        <Image Grid.Row="1"
+               Grid.ColumnSpan="2"
+               HeightRequest="200"
+               Source="{Binding BookImage}"/>
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Text="Authors:" />
+        <CollectionView Grid.Row="2"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Authors}"
+                        ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Author">
+                    <FlexLayout Direction="Row" Margin="0, 5, 0, 5">
+                        <Label Text="{Binding Name}" />
+                    </FlexLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Grid.Row="3"
+               Grid.Column="0"
+               Text="Genre"/>
+        <CollectionView Grid.Row="3"
+                        Grid.Column="1"
+                        x:Name="genresList" 
+                        ItemsSource="{Binding Genres}" 
+                        ItemsLayout="HorizontalList" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Genre">
+                    <FlexLayout Direction="Column" Margin="0, 5, 0, 5">
+                        <Label Text="{Binding Name}" />
+                    </FlexLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Grid.Row="4"
+               Grid.Column="0"
+               Text="Location: " />
+        <Label Grid.Row="4"
+               Grid.Column="1"
+               Text="{Binding BookLocation}" />
+        <Label Grid.Row="5"
+               Grid.ColumnSpan="2"
+               Text="{Binding BookDescription}"/>
+    </Grid>
+</ContentPage>

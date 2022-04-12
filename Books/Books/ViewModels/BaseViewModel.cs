@@ -1,4 +1,5 @@
 ﻿using Books.Core;
+using Books.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,11 @@ namespace Books.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        
+        internal readonly BookService bookService;
+        public BaseViewModel()
+        {
+            bookService = new BookService();
+        }
 
         bool isBusy = false;
         public bool IsBusy

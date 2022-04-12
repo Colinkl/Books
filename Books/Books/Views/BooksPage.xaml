@@ -16,41 +16,61 @@
                         SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <FlexLayout Direction="Column" x:DataType="model:Book">
-                        <Label Text="{Binding Title}"
+                    <Grid x:Name="BookCard" x:DataType="model:Book" >
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="bookLogo"
+                               Grid.RowSpan="3"
+                               Grid.Column="0"
+                               Source="{Binding Image}"/>
+                        <Label Grid.Row="0"
+                               Grid.Column="1"
+                               Text="{Binding Title}"
                                LineBreakMode="NoWrap"
                                Style="{DynamicResource ListItemTextStyle }"
                                FontSize="20" />
-                        <CollectionView ItemsSource="{Binding Authors}"
+                        <CollectionView Grid.Row="1"
+                                        Grid.Column="1"
+                                        x:Name="genresList" 
+                                        ItemsSource="{Binding Genres}" 
+                                        ItemsLayout="HorizontalList" >
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Genre">
+                                    <FlexLayout Direction="Column" Margin="0, 5, 0, 5">
+                                        <Label Text="{Binding Name}" />
+                                    </FlexLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <CollectionView Grid.Row="2"
+                                        Grid.Column="1"
+                                        x:Name="AuthorsList" 
+                                        ItemsSource="{Binding Authors}" 
                                         ItemsLayout="HorizontalList">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="model:Author">
-                                    <FlexLayout Padding="10" Direction="Row">
-                                        <Label Text="{Binding Name}" />
-                                        <Label Text=" " />
-                                        <Label Text="{Binding LastName}" />
-                                    </FlexLayout>
-
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-
-                        </CollectionView>
-
-                        <CollectionView ItemsSource="{Binding Genres}"
-                                        ItemsLayout="HorizontalList">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="model:Genre">
-                                    <FlexLayout Padding="10" Direction="Row">
+                                    <FlexLayout Direction="Row" Margin="0, 5, 0, 5">
                                         <Label Text="{Binding Name}" />
                                     </FlexLayout>
-
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
-
                         </CollectionView>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type local:BooksViewModel}}, Path = BookTapped}"
+                                                  CommandParameter ="{Binding .}" >
+                      
+                            </TapGestureRecognizer>
+                        </Grid.GestureRecognizers>
+                    </Grid>
 
-
-                    </FlexLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
