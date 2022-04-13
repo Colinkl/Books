@@ -11,7 +11,10 @@ namespace Books.Core.Models
         public string LastName { get; set; }
 
         public virtual List<Book> BookList { get; set; } = new List<Book>();
-
+        public string FullName
+        {
+            get => string.Format("{0} {1}", Name, LastName);
+        }
         public override string ToString()
         {
             return string.Format("{0} {1}", Name, LastName);

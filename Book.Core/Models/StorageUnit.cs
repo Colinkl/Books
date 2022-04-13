@@ -12,9 +12,9 @@ namespace Books.Core.Models
 
         public int Rack { get; set; }
 
-        public override string ToString()
+        public string Text
         {
-            return String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
+            get => String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
         }
 
         public virtual Book Book { get; set; }

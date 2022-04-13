@@ -7,15 +7,15 @@
              xmlns:local ="clr-namespace:Books.ViewModels">
     <Grid x:Name="BookDetails">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -23,38 +23,39 @@
                Grid.ColumnSpan="2"
                Text="{Binding BookTitle}" 
                LineBreakMode="NoWrap"
+               HorizontalTextAlignment="Center"
                Style="{DynamicResource ListItemTextStyle }"
                FontSize="25" />
         <Image Grid.Row="1"
                Grid.ColumnSpan="2"
-               HeightRequest="200"
+               HeightRequest="300"
                Source="{Binding BookImage}"/>
         <Label Grid.Row="2"
                Grid.Column="0"
                Text="Authors:" />
         <CollectionView Grid.Row="2"
                         Grid.Column="1"
-                        ItemsSource="{Binding Authors}"
+                        ItemsSource="{Binding BookAuthors}"
                         ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Author">
-                    <FlexLayout Direction="Row" Margin="0, 5, 0, 5">
-                        <Label Text="{Binding Name}" />
+                    <FlexLayout Direction="Row" Margin="0, 0, 5, 0">
+                        <Label Text="{Binding FullName}" />
                     </FlexLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
         <Label Grid.Row="3"
                Grid.Column="0"
-               Text="Genre"/>
+               Text="Genres: "/>
         <CollectionView Grid.Row="3"
                         Grid.Column="1"
                         x:Name="genresList" 
-                        ItemsSource="{Binding Genres}" 
+                        ItemsSource="{Binding BookGenres}" 
                         ItemsLayout="HorizontalList" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Genre">
-                    <FlexLayout Direction="Column" Margin="0, 5, 0, 5">
+                    <FlexLayout Direction="Column" Margin="0, 0, 5, 0">
                         <Label Text="{Binding Name}" />
                     </FlexLayout>
                 </DataTemplate>

@@ -13,7 +13,7 @@ namespace Books.ViewModels
 
         public ObservableCollection<Book> BooksList { get; set; }
         public Command LoadBooksCommand { get; }
-        public Command AddBooksCommand { get; }
+        public Command AddBookCommand { get; }
         public Command<Book> BookTapped { get; }
 
 
@@ -22,8 +22,8 @@ namespace Books.ViewModels
             Title = "Books Library";
             BooksList = new ObservableCollection<Book>();
 
-
             BookTapped = new Command<Book>(OnBookSelected);
+            AddBookCommand = new Command(OnBookAdd);
             LoadBooksCommand = new Command(async () => await ExecuteLoadBooksCommand());
         }
 
@@ -43,6 +43,11 @@ namespace Books.ViewModels
                 SetProperty(ref selectedBook, value);
                 OnBookSelected(value);
             }
+        }
+
+        private async void OnBookAdd(Object obj)
+        {
+            await Shell.Current.GoToAsync(nameof(NewBookPage));
         }
 
         private async void OnBookSelected(Book book)
