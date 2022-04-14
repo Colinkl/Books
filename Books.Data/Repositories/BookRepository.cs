@@ -17,13 +17,13 @@ namespace Books.Data.Repositories
         public IEnumerable<Book> BookSearch(string query)
         {
             var booksByAuthor = (from a in dbContext.Authors
-                                 where a.Name.Contains(query) || a.LastName.Contains(query)
+                                 where a.Name.ToUpper().Contains(query.ToUpper()) || a.LastName.ToUpper().Contains(query.ToUpper())
                                  select a.BookList.AsEnumerable()).FirstOrDefault();
             var booksByGenre = (from g in dbContext.Genres
-                                where g.Name.StartsWith(query)
+                                where g.Name.ToUpper().Contains(query.ToUpper())
                                 select g.Books).FirstOrDefault();
             var booksByTitle = (from b in dbContext.Books
-                                where b.Title.StartsWith(query)
+                                where b.Title.ToUpper().Contains(query.ToUpper())
                                 select b).ToList();
             var result = new List<Book>();
             if(booksByAuthor != null)
@@ -33,8 +33,8 @@ namespace Books.Data.Repositories
             if(booksByTitle != null) 
                 result.AddRange(booksByTitle);
          
-            result.Distinct();
-            return result;
+            var distResult = result.Distinct().ToList();
+            return distResult;
 
         }
         public async void UpdateBook(Book newBook)

@@ -16,7 +16,8 @@
         <StackLayout>
             <SearchBar x:Name="searchBar"
                    SearchCommand="{Binding PerformSearch}"
-                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                       Text ="{Binding SearchQuery, Mode=TwoWay}"/>
             <CollectionView x:Name="BooksListView"
                         ItemsSource="{Binding BooksList}"
                         SelectionMode="None">

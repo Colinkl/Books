@@ -17,7 +17,18 @@ namespace Books.ViewModels
         public Command AddBookCommand { get; }
         public Command<Book> BookTapped { get; }
         public Command<string> PerformSearch { get; }
+        private string searchQuery;
+        public string SearchQuery
+        {
+            get { return searchQuery; }
+            set
+            {
+                if(value == string.Empty)
+                    _ = ExecuteLoadBooksCommand();
+                searchQuery = value;
 
+            }
+        }
         public BooksViewModel()
         {
             Title = "Books Library";
