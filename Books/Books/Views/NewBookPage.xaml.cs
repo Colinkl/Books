@@ -11,7 +11,9 @@ namespace Books.Views
         public NewBookPage()
         {
             InitializeComponent();
-            BindingContext = new NewItemViewModel();
+            BindingContext = new NewBookViewModel();
         }
+
+
     }
 }

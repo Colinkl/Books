@@ -6,73 +6,126 @@
              xmlns:model ="clr-namespace:Books.Core.Models;assembly=Books.Core"
              xmlns:local ="clr-namespace:Books.ViewModels"
              Shell.PresentationMode="Animated">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Title" FontSize="Medium"/>
-            <Entry Text="{Binding BookTitle, Mode=TwoWay}" FontSize="Medium"/>
-            <Label Text="Authors" FontSize="Medium"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="40"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-                <CollectionView Grid.Column="0" 
-                                x:Name="AuthorsSelectionList"
-                                ItemsSource="{Binding AuthorsList}">
+        <ScrollView >
+            <StackLayout>
+                <Label Text="Title" FontSize="Medium"/>
+                <Entry Text="{Binding BookTitle, Mode=TwoWay}" FontSize="Medium" Placeholder="{Binding BookTitlePlaceHolder}"/>
+                <Label Text="Authors" FontSize="Medium"/>
+
+                <CollectionView x:Name="AuthorsSelectionList"
+                                ItemsSource="{Binding SelectedAuthorsList}"
+                                ItemsLayout="HorizontalList"
+                                HeightRequest="40">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Author">
-                            <FlexLayout Direction="Column" Margin="0,0,5,0">
-                                <Label Text="{Binding Name}"/>
-                                <Button Text=" X" 
+                            <FlexLayout Direction="row" Margin="0,0,5,0" >
+                                <Label Text="{Binding FullName}"/>
+                                <Button Text="X" 
+                                        FontSize="10"
                                         BorderWidth="0"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= RemoveAuthorClicked}"
+                                        WidthRequest="30"
+                                        HeightRequest="30"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= RemoveAuthorCommand}"
                                         CommandParameter="{Binding .}" />
                             </FlexLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+
+
                 <Button Text="+" 
-                        Grid.Column="1"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= AddAuthorClicked}" />
-            </Grid>
-            <Label Text="Genres" FontSize="Medium"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="40"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-                <CollectionView Grid.Column="0" 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= AddAuthorCommand}" />
+                <ContentView x:Name="authorSelectPopupView" BackgroundColor="Transparent" Padding="10, 0" IsVisible="{Binding AuthorSelectPopupVisible}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame CornerRadius="10" Padding="0" BorderColor="LightGray">
+                            <StackLayout Orientation="Vertical" BackgroundColor="White">
+                                <ListView SeparatorVisibility="None" 
+                                      ItemsSource="{Binding Authors}" 
+                                      VerticalScrollBarVisibility="Never"
+                                      SelectedItem="{Binding SelectedAuthor}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell x:DataType="model:Author">
+                                                <Label Text="{Binding FullName}" />
+
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </ContentView>
+
+                <Label Text="Genres" FontSize="Medium"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <CollectionView Grid.Column="0" 
                                 x:Name="GenresSelectionList"
-                                ItemsSource="{Binding GenresList}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Genre">
-                            <FlexLayout Direction="Column" Margin="0,0,5,0">
-                                <Label Text="{Binding Name}"/>
-                                <Button Text=" X" 
-                                        BorderWidth="0"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= RemoveGenreClicked}"
-                                        CommandParameter="{Binding .}" />
-                            </FlexLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <Button Text="+" 
+                                ItemsSource="{Binding SelectedGenresList}"
+                                ItemsLayout="HorizontalList"
+                                HeightRequest="80">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Genre">
+                                <FlexLayout Direction="row" Margin="0,0,5,0">
+                                    <Label Text="{Binding Name}"/>
+                                    <Button Text="X" 
+                                            FontSize="10"
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            BorderWidth="0" 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= RemoveGenreCommand}"
+                                                     CommandParameter="{Binding .}" />
+                                </FlexLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button Text="+" 
                         Grid.Column="1"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= AddGenreClicked}" />
-            </Grid>
-            <Label Text="Location" FontSize="Medium" />
-            <Picker x:Name="locationPicker" 
-                    ItemsSource="{Binding locationsList}" 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewBookViewModel}}, Path= AddGenreCommand}" />
+                </Grid>
+                <ContentView x:Name="genresSelectPopupView" BackgroundColor="Transparent" Padding="10, 0" IsVisible="{Binding GenresSelectPopupVisible}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <Frame CornerRadius="10" Padding="0" BorderColor="LightGray">
+                            <StackLayout Orientation="Vertical" BackgroundColor="White">
+                                <ListView SeparatorVisibility="None" 
+                                          ItemsSource="{Binding Genres}" 
+                                          VerticalScrollBarVisibility="Never"
+                                          SelectedItem="{Binding SelectedGenre}"
+                                          >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell x:DataType="model:Genre">
+                                                <Label Text="{Binding Name}" />
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </ContentView>
+                <Label Text="Location" FontSize="Medium" />
+                <Picker x:Name="locationPicker" 
+                    ItemsSource="{Binding LocationsList}" 
                     ItemDisplayBinding="{Binding Text}"
-                    SelectedItem="{Binding SelectedLocation}" />
-            <Label Text="Description" />
-            <Entry Text="{Binding BookDescription, Mode=TwoWay}" FontSize="Medium"/>
-        </StackLayout>
+                    SelectedItem="{Binding SelectedLocation}"/>
+
+                <Label Text="Description" />
+                <Entry Text="{Binding BookDescription, Mode=TwoWay}" FontSize="Medium" />
+                
+            </StackLayout>
+        </ScrollView>
+
     </ContentPage.Content>
 </ContentPage>

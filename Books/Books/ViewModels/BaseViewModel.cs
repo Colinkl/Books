@@ -11,9 +11,12 @@ namespace Books.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly BookService bookService;
+        internal readonly AuthorService authorService;
         public BaseViewModel()
         {
             bookService = new BookService();
+            authorService = new AuthorService();
+
         }
 
         bool isBusy = false;

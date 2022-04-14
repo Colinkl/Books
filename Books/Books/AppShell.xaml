@@ -31,8 +31,7 @@
 
     <TabBar>
         <ShellContent Title="Books Library" Icon="icon_about.png" Route="BrowseBooksPage" ContentTemplate="{DataTemplate local:BooksPage}" />
-        <ShellContent Title="Browse" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
-       
+
     </TabBar>
 
     <!--

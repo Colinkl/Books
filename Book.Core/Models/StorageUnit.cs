@@ -16,7 +16,10 @@ namespace Books.Core.Models
         {
             get => String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
         }
-
+        public override string ToString()
+        {
+            return String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
+        }
         public virtual Book Book { get; set; }
     }
 }
