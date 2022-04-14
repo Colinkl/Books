@@ -6,6 +6,7 @@ namespace Books.Core.Repositories
 {
     public interface IBookRepository : IRepository<Book>
     {
-        
+        void UpdateBook(Book newBook);
+        IEnumerable<Book> BookSearch(string query);
     }
 }

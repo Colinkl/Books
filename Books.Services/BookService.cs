@@ -17,6 +17,12 @@ namespace Books.Services
             unitOfWork = DependencyService.Get<IUnitOfWork>();
         }
 
+        public IEnumerable<Book> BookSearch(string query)
+        {
+           return  unitOfWork.Books.BookSearch(query);
+            
+        }
+
         public async Task CreateBook(Book book)
         {
             await unitOfWork.Books.AddAsync(book);
@@ -86,7 +92,8 @@ namespace Books.Services
 
         public Task UpdateBook(Book book)
         {
-            throw new NotImplementedException();
+            unitOfWork.Books.UpdateBook(book);
+            return Task.CompletedTask;
         }
     }
 }

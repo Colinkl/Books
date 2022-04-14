@@ -5,6 +5,9 @@
              Title ="{Binding Title}"
              xmlns:model ="clr-namespace:Books.Core.Models;assembly=Books.Core"
              xmlns:local ="clr-namespace:Books.ViewModels">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit" Command="{Binding EditBookCommand}" />
+    </ContentPage.ToolbarItems>
     <Grid x:Name="BookDetails">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

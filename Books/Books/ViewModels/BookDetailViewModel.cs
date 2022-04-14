@@ -1,4 +1,5 @@
 ﻿using Books.Core.Models;
+using Books.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Xamarin.Forms;
@@ -44,13 +45,19 @@ namespace Books.ViewModels
         public ObservableCollection<Author> BookAuthors { get; set; }
         public ObservableCollection<Genre> BookGenres { get; set; }
 
+        public Command EditBookCommand { get; set; }
+
         public BookDetailViewModel()
         {
             BookAuthors = new ObservableCollection<Author>();
             BookGenres = new ObservableCollection<Genre>();
+            EditBookCommand = new Command(OnBookEdit);
         }
 
-
+        private async void OnBookEdit()
+        {
+            await Shell.Current.GoToAsync($"{nameof(NewBookPage)}?{nameof(NewBookViewModel.BookId)}={bookId}");
+        }
         private Book book;
         public async void LoadBookId(int itemId)
         {
@@ -64,7 +71,6 @@ namespace Books.ViewModels
                 BookDescription = book.Descripton;
                 BookImage = book.Image;
                 book.Authors.ForEach(x => BookAuthors.Add(x));
-                var a = BookAuthors;
                 book.Genres.ForEach(x => BookGenres.Add(x));
 
             }

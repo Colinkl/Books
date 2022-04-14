@@ -26,5 +26,12 @@ namespace Books.Core.Models
         public int AddedByUserId { get; set; }
         public virtual User AddedBy { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Book book) 
+                return Title == book.Title;
+            return false;
+        }
+        public override int GetHashCode() => Title.GetHashCode();
     }
 }

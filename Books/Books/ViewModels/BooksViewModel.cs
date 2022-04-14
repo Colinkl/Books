@@ -4,6 +4,7 @@ using Books.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace Books.ViewModels
@@ -15,7 +16,7 @@ namespace Books.ViewModels
         public Command LoadBooksCommand { get; }
         public Command AddBookCommand { get; }
         public Command<Book> BookTapped { get; }
-
+        public Command<string> PerformSearch { get; }
 
         public BooksViewModel()
         {
@@ -25,6 +26,7 @@ namespace Books.ViewModels
             BookTapped = new Command<Book>(OnBookSelected);
             AddBookCommand = new Command(OnBookAdd);
             LoadBooksCommand = new Command(async () => await ExecuteLoadBooksCommand());
+            PerformSearch = new Command<string>(OnPerformSearchAsync);
         }
 
         public void OnAppearing()
@@ -79,6 +81,19 @@ namespace Books.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+      
+        
+
+        private  void OnPerformSearchAsync(string query)
+        {
+            var books =  bookService.BookSearch(query);
+            BooksList.Clear();
+            foreach (var b in books)
+            {
+                BooksList.Add(b);
+            } 
         }
     }
 }

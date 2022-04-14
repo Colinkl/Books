@@ -9,70 +9,77 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddBookCommand}" />
     </ContentPage.ToolbarItems>
-
+    <ContentPage.BindingContext>
+        <local:BooksViewModel/>
+    </ContentPage.BindingContext>
     <RefreshView x:DataType="local:BooksViewModel" Command="{Binding LoadBooksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="BooksListView"
+        <StackLayout>
+            <SearchBar x:Name="searchBar"
+                   SearchCommand="{Binding PerformSearch}"
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+            <CollectionView x:Name="BooksListView"
                         ItemsSource="{Binding BooksList}"
                         SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid x:Name="BookCard" x:DataType="model:Book" >
-                        <Grid.RowDefinitions >
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Image x:Name="bookLogo"
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="BookCard" x:DataType="model:Book" >
+                            <Grid.RowDefinitions >
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="bookLogo"
                                Grid.RowSpan="3"
                                Grid.Column="0"
                                Source="{Binding Image}"/>
-                        <Label Grid.Row="0"
+                            <Label Grid.Row="0"
                                Grid.Column="1"
                                Text="{Binding Title}"
                                LineBreakMode="NoWrap"
                                Style="{DynamicResource ListItemTextStyle }"
                                FontSize="20" />
-                        <CollectionView Grid.Row="1"
+                            <CollectionView Grid.Row="1"
                                         Grid.Column="1"
                                         x:Name="genresList" 
                                         ItemsSource="{Binding Genres}" 
                                         ItemsLayout="HorizontalList" >
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="model:Genre">
-                                    <FlexLayout Direction="Column" Margin="0, 0, 5, 0">
-                                        <Label Text="{Binding Name}" />
-                                    </FlexLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                        <CollectionView Grid.Row="2"
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:Genre">
+                                        <FlexLayout Direction="Column" Margin="0, 0, 5, 0">
+                                            <Label Text="{Binding Name}" />
+                                        </FlexLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <CollectionView Grid.Row="2"
                                         Grid.Column="1"
                                         x:Name="AuthorsList" 
                                         ItemsSource="{Binding Authors}" 
                                         ItemsLayout="HorizontalList">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="model:Author">
-                                    <FlexLayout Direction="Row" Margin="0, 0, 5, 0">
-                                        <Label Text="{Binding Name}" />
-                                    </FlexLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1"
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:Author">
+                                        <FlexLayout Direction="Row" Margin="0, 0, 5, 0">
+                                            <Label Text="{Binding Name}" />
+                                        </FlexLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1"
                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:BooksViewModel}}, Path = BookTapped}"
                                                   CommandParameter ="{Binding .}" >
-                      
-                            </TapGestureRecognizer>
-                        </Grid.GestureRecognizers>
-                    </Grid>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                </TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
     </RefreshView>
 </ContentPage>

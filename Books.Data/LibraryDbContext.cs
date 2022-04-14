@@ -1,5 +1,6 @@
 ﻿using Books.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.IO;
 using Xamarin.Essentials;
 
@@ -35,7 +36,8 @@ namespace Books.Data
             optionsBuilder
                 .UseLazyLoadingProxies()
                 .EnableSensitiveDataLogging()
-                .UseSqlite($"Filename={dbPath}");
+                .UseSqlite($"Filename={dbPath}")
+                .LogTo(System.Console.WriteLine);
 
 
         }

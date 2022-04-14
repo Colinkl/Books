@@ -13,6 +13,7 @@ namespace Books.Core.Services
         Task MoveBook(Book book, StorageUnit storageUnit);
         Task DeleteBook(Book book);
         Task UpdateBook(Book book);
+        IEnumerable<Book> BookSearch(string query);
 
         Task<IEnumerable<Genre>> GetAllGenres();
         Task<Genre> GetGenreById(int id);

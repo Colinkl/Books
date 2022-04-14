@@ -3,10 +3,27 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Linq;
+using System.Diagnostics;
+using System;
+
 namespace Books.ViewModels
 {
+    [QueryProperty(nameof(BookId), nameof(BookId))]
     public class NewBookViewModel : BaseViewModel
     {
+        private int bookId;
+        public int BookId
+        {
+            get
+            {
+                return bookId;
+            }
+            set
+            {
+                bookId = value;
+                LoadBookId(value);
+            }
+        }
         private string bookTitle = string.Empty;
         public string BookTitle
         {
@@ -110,34 +127,49 @@ namespace Books.ViewModels
 
         private async void OnBookSave()
         {
+            if (bookTitle == string.Empty)
+            {
+                BookTitlePlaceHolder = "Required";
+                return;
+            }
+
             try
             {
-                if (bookTitle == string.Empty)
+                
+                if (bookId == 0)
                 {
-                    BookTitlePlaceHolder = "Required";
-                    return;
+                    var book = new Book()
+                    {
+                        Title = bookTitle,
+                        Descripton = bookDescription,
+                        Authors = SelectedAuthorsList.ToList(),
+                        Genres = SelectedGenresList.ToList(),
+                        AddedByUserId = 0,
+                        Location = selectedLocation
+                    };
+                    await bookService.CreateBook(book);
                 }
-                var book = new Book()
+                else
                 {
-                    Title = bookTitle,
-                    Descripton = bookDescription,
-                    Authors = SelectedAuthorsList.ToList(),
-                    Genres = SelectedGenresList.ToList(),
-                    AddedByUserId = 0,
-                    Location = selectedLocation
-                };
-                await bookService.CreateBook(book);
+                    editedBook.Title = bookTitle;
+                    editedBook.Descripton = bookDescription;
+                    editedBook.Authors = SelectedAuthorsList.ToList();
+                    editedBook.Genres = SelectedGenresList.ToList();
+                    editedBook.Location = selectedLocation;
+                    await bookService.UpdateBook(editedBook);
+                }
                 await Shell.Current.GoToAsync("..");
 
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
 
-                BookTitlePlaceHolder = "error";
+                Debug.WriteLine(e);
+                Debug.WriteLine(e.InnerException.Message);
             }
 
 
-            
+
         }
 
         private async void LoadLocations()
@@ -245,6 +277,28 @@ namespace Books.ViewModels
             }
         }
 
+        private Book editedBook;
+        public async void LoadBookId(int itemId)
+        {
+            try
+            {
+                editedBook = await bookService.GetBookById(itemId);
+                
+                BookTitle = editedBook.Title;
+                SelectedLocation = editedBook.Location;
+                BookDescription = editedBook.Descripton;
+                editedBook.Authors.ForEach(x => SelectedAuthorsList.Add(x));
+
+                editedBook.Genres.ForEach(x => SelectedGenresList.Add(x));
+
+            }
+            catch (System.Exception)
+            {
+
+                Debug.WriteLine("Failed to Load Item");
+                throw;
+            }
+        }
         private void OnAuthorSelected(Author author)
         {
             try
