@@ -57,7 +57,7 @@ namespace Books.ViewModels
             get
             {
                 if (selectedLocation == null)
-                    LoadLocationsAsync();
+                    _ = LoadLocationsAsync();
                 return selectedLocation;
             }
             set => SetProperty(ref selectedLocation, value);
