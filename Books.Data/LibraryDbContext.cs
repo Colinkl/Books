@@ -1,6 +1,5 @@
 ﻿using Books.Core.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using System.IO;
 using Xamarin.Essentials;
 
@@ -54,8 +53,8 @@ namespace Books.Data
                 });
             modelBuilder.Entity<Author>().HasData(new Author[]
             {
-                new Author { Id = 1, Name ="A", LastName = "A"},
-                new Author {Id = 2, Name ="B", LastName = "B"},
+                new Author { Id = 1, Name ="M.E.", LastName = "Owmeow"},
+                new Author {Id = 2, Name ="W.O.", LastName = "OofWoof"},
                 new Author { Id=3, Name ="C", LastName = "C"},
                 new Author { Id=4, Name ="D", LastName = "D"}
             });
@@ -74,18 +73,29 @@ namespace Books.Data
             modelBuilder.Entity<Book>().HasData(new Book[]
             {
                 new Book { Id = 1,
-                    Title ="Interesting Book",
+                    Title ="Meow",
                     LocationId = 1, AddedByUserId = 1,
-                    Descripton = "SuperBook",
+                    Descripton = "Meow is a novel for cats written from the perspective of a cat. Only one word can describe the wondrous adventures waiting inside the cover of Meow, and that word is Meow. Meow is also the only word you will find inside the cover of Meow, because this is a novel for cats",
                     Image = "https://www.uselessthingstobuy.com/wp-content/uploads/2019/05/Screen-Shot-2019-05-22-at-11.50.41-AM.png"}
                 });
+            modelBuilder.Entity<Book>().HasData(new Book[]
+            {
+                new Book { Id = 2,
+                    Title ="Woof",
+                    LocationId = 2, AddedByUserId = 1,
+                    Descripton = "Woof is a novel for dogs written from the perspective of a dog Only one word can describe the wondrous adventures waiting inside the cover of Woof, it is also the only word you will find inside the cover of Woof. Woof",
+                    Image = "https://images-na.ssl-images-amazon.com/images/I/41wCjqWKq5L.jpg"}
+               });
 
             modelBuilder.Entity("BookGenre").HasData(
                 new { BooksId = 1, GenresId = 1 },
-                new { BooksId = 1, GenresId = 2 });
+                new { BooksId = 1, GenresId = 2 },
+                new { BooksId = 2, GenresId = 2 },
+                new { BooksId = 2, GenresId = 3 });
             modelBuilder.Entity("AuthorBook").HasData(
                 new { AuthorsId = 1, BookListId = 1 },
-                new { AuthorsId = 2, BookListId = 1 });
+                new { AuthorsId = 1, BookListId = 2 },
+                new { AuthorsId = 2, BookListId = 2 });
 
         }
 
