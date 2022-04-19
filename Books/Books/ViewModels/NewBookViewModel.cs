@@ -1,12 +1,10 @@
 ﻿using Books.Core.Models;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Xamarin.Forms;
-using Xamarin.Forms.Core;
-using System.Linq;
-using System.Diagnostics;
 using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Books.ViewModels
 {
@@ -131,7 +129,7 @@ namespace Books.ViewModels
         {
             if (bookTitle == string.Empty)
             {
-                await App.Current.MainPage.DisplayAlert("Error","Book title is required", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Book title is required", "OK");
                 return;
             }
             if (selectedLocation is null)
@@ -142,7 +140,7 @@ namespace Books.ViewModels
 
             try
             {
-                
+
                 if (bookId == 0)
                 {
                     var book = new Book()
@@ -181,7 +179,7 @@ namespace Books.ViewModels
 
         private async Task LoadLocationsAsync()
         {
-            var locations =  bookService.GetFreeStorageUnitsAsync();
+            var locations = bookService.GetFreeStorageUnitsAsync();
             if (locations.Count() == 0)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "No free storage units available", "OK");
@@ -295,7 +293,7 @@ namespace Books.ViewModels
             try
             {
                 editedBook = await bookService.GetBookById(itemId);
-                
+
                 BookTitle = editedBook.Title;
                 SelectedLocation = editedBook.Location;
                 BookDescription = editedBook.Descripton;

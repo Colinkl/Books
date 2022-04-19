@@ -46,15 +46,15 @@ namespace Books.Data
             modelBuilder.Entity<StorageUnit>().HasData(
                 new StorageUnit[]
                 {
-                    new StorageUnit {Id= 1, Rack = 1, Row = 1, Shelf = 1 },
-                    new StorageUnit { Id = 2, Rack = 1, Row = 2, Shelf = 1 },
+                    new StorageUnit {Id = 1, Rack = 1, Row = 1, Shelf = 1 },
+                    new StorageUnit {Id = 2, Rack = 1, Row = 2, Shelf = 1 },
                     new StorageUnit {Id = 3, Rack = 2, Row = 1, Shelf = 2 },
-                    new StorageUnit {Id = 4, Rack = 2, Row = 2, Shelf= 1 }
+                    new StorageUnit {Id = 4, Rack = 2, Row = 2, Shelf = 1 }
                 });
             modelBuilder.Entity<Author>().HasData(new Author[]
             {
                 new Author { Id = 1, Name ="M.E.", LastName = "Owmeow"},
-                new Author {Id = 2, Name ="W.O.", LastName = "OofWoof"},
+                new Author { Id = 2, Name ="W.O.", LastName = "OofWoof"},
                 new Author { Id=3, Name ="C", LastName = "C"},
                 new Author { Id=4, Name ="D", LastName = "D"}
             });

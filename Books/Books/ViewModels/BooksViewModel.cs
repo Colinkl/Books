@@ -1,10 +1,8 @@
 ﻿using Books.Core.Models;
-using Books.Services;
 using Books.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Linq;
 using Xamarin.Forms;
 
 namespace Books.ViewModels
@@ -23,7 +21,7 @@ namespace Books.ViewModels
             get { return searchQuery; }
             set
             {
-                if(value == string.Empty)
+                if (value == string.Empty)
                     _ = ExecuteLoadBooksCommand();
                 searchQuery = value;
 
@@ -94,17 +92,17 @@ namespace Books.ViewModels
             }
         }
 
-      
-        
 
-        private  void OnPerformSearchAsync(string query)
+
+
+        private void OnPerformSearchAsync(string query)
         {
-            var books =  bookService.BookSearch(query);
+            var books = bookService.BookSearch(query);
             BooksList.Clear();
             foreach (var b in books)
             {
                 BooksList.Add(b);
-            } 
+            }
         }
     }
 }

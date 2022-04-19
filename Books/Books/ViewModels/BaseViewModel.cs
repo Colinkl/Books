@@ -1,10 +1,8 @@
-﻿using Books.Core;
-using Books.Services;
+﻿using Books.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Xamarin.Forms;
 
 namespace Books.ViewModels
 {
