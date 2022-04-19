@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Core", "Book.Core\Boo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Data", "Books.Data\Books.Data.csproj", "{BE4BC5D6-884C-4D57-B5DC-313CCE8B89CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Services", "Books.Services\Books.Services.csproj", "{1730C894-7D60-4520-808D-86EF2061AB21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Services", "Books.Services\Books.Services.csproj", "{1730C894-7D60-4520-808D-86EF2061AB21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{16021F93-1AA7-41AA-9A7B-1F65CE85CE8E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -21,6 +21,7 @@ namespace Books.Core.Services
         Task CreateGenre(Genre genre);
 
         Task<IEnumerable<StorageUnit>> GetAllStorageUnitsAsync();
+        IEnumerable<StorageUnit> GetFreeStorageUnitsAsync();
         Task<StorageUnit> GetStorageUnitById(int id);
 
     }

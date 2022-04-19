@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Books.Core.Models
 {
+    [Index(nameof(Name), nameof(LastName))]
     public class Author
     {
         public int Id { get; set; }

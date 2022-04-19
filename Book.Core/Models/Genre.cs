@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Books.Core.Models
 {
+    [Index(nameof(Name))]
     public class Genre
     {
         public int Id { get; set; }
@@ -17,7 +19,7 @@ namespace Books.Core.Models
 
         public override string ToString()
         {
-            return String.Format("{0}", Name);
+            return string.Format("{0}", Name);
         }
 
         
