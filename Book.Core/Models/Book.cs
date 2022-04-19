@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Books.Core.Models
@@ -8,11 +9,15 @@ namespace Books.Core.Models
     {
         public int Id { get; set; }
 
+        [MaxLength(100)]
         public string Title { get; set; }
 
+        [MaxLength(500)]
         public string Descripton { get; set; }
 
+        [MaxLength(100)]
         public string Image { get; set; }
+
 
         public virtual List<Author> Authors { get; set; } = new List<Author>();
 
@@ -25,6 +30,7 @@ namespace Books.Core.Models
         [ForeignKey("User")]
         public int AddedByUserId { get; set; }
         public virtual User AddedBy { get; set; }
+
 
         public override bool Equals(object obj)
         {

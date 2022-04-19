@@ -12,6 +12,10 @@ namespace Books.Core.Models
 
         public int Rack { get; set; }
 
+
+        public virtual Book Book { get; set; }
+
+
         public string Text
         {
             get => String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
@@ -20,6 +24,6 @@ namespace Books.Core.Models
         {
             return String.Format("rack {0}, row {1}, shelf {2}", this.Rack, this.Row, this.Shelf);
         }
-        public virtual Book Book { get; set; }
+       
     }
 }
