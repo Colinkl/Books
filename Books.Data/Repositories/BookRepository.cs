@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Data.Sqlite;
+
 namespace Books.Data.Repositories
 {
     public class BookRepository : Repository<Book>, IBookRepository
@@ -16,26 +18,44 @@ namespace Books.Data.Repositories
 
         public IEnumerable<Book> BookSearch(string query)
         {
-            var booksByAuthor = (from a in dbContext.Authors
-                                 where a.Name.ToUpper().Contains(query.ToUpper()) || a.LastName.ToUpper().Contains(query.ToUpper())
-                                 select a.BookList.AsEnumerable()).FirstOrDefault();
-            var booksByGenre = (from g in dbContext.Genres
-                                where g.Name.ToUpper().Contains(query.ToUpper())
-                                select g.Books).FirstOrDefault();
-            var booksByTitle = (from b in dbContext.Books
-                                where b.Title.ToUpper().Contains(query.ToUpper())
-                                select b).ToList();
-            var result = new List<Book>();
-            if(booksByAuthor != null)
-                result.AddRange(booksByAuthor);
-            if(booksByGenre != null)
-                result.AddRange(booksByGenre);
-            if(booksByTitle != null) 
-                result.AddRange(booksByTitle);
-         
-            var distResult = result.Distinct().ToList();
-            return distResult;
+            //var booksByAuthor = (from a in dbContext.Authors
+            //                     where a.Name.ToUpper().Contains(query.ToUpper()) || a.LastName.ToUpper().Contains(query.ToUpper())
+            //                     select a.BookList.AsEnumerable()).FirstOrDefault();
+            //var booksByGenre = (from g in dbContext.Genres
+            //                    where g.Name.ToUpper().Contains(query.ToUpper())
+            //                    select g.Books).FirstOrDefault();
+            //var booksByTitle = (from b in dbContext.Books
+            //                    where b.Title.ToUpper().Contains(query.ToUpper())
+            //                    select b).ToList();
+            //var result = new List<Book>();
+            //if(booksByAuthor != null)
+            //    result.AddRange(booksByAuthor);
+            //if(booksByGenre != null)
+            //    result.AddRange(booksByGenre);
+            //if(booksByTitle != null) 
+            //    result.AddRange(booksByTitle);
 
+            //var distResult = result.Distinct().ToList();
+            //return distResult;
+
+            SqliteParameter parameter = new SqliteParameter("query", $"%{query}%");
+            var books = Context.Books.FromSqlRaw(@"SELECT * FROM Books
+                                                    WHERE Books.Id in
+                                                        (SELECT Books.Id FROM Books
+                                                        WHERE Books.Title LIKE @query
+                                                        UNION
+
+                                                        SELECT Books.Id FROM Books
+                                                        JOIN BookGenre on Books.Id = BookGenre.BooksId
+                                                        JOIN Genres on BookGenre.GenresId = Genres.Id
+                                                        WHERE Genres.Name like @query
+                                                        UNION
+
+                                                        SELECT books.Id FROM Books
+                                                        join AuthorBook on Books.Id = AuthorBook.BookListId
+                                                        join Authors on AuthorBook.AuthorsId = Authors.Id
+                                                        where Authors.Name || Authors.LastName like @query)", parameter).AsEnumerable();
+            return books;
         }
         public async void UpdateBook(Book newBook)
         {
