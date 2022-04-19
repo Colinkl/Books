@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using Xamarin.Forms.Core;
 using System.Linq;
 using System.Diagnostics;
 using System;
+using System.Threading.Tasks;
 
 namespace Books.ViewModels
 {
@@ -55,7 +57,7 @@ namespace Books.ViewModels
             get
             {
                 if (selectedLocation == null)
-                    LoadLocations();
+                    LoadLocationsAsync();
                 return selectedLocation;
             }
             set => SetProperty(ref selectedLocation, value);
@@ -129,7 +131,12 @@ namespace Books.ViewModels
         {
             if (bookTitle == string.Empty)
             {
-                BookTitlePlaceHolder = "Required";
+                await App.Current.MainPage.DisplayAlert("Error","Book title is required", "OK");
+                return;
+            }
+            if (selectedLocation is null)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Book Location is required", "OK");
                 return;
             }
 
@@ -172,9 +179,14 @@ namespace Books.ViewModels
 
         }
 
-        private async void LoadLocations()
+        private async Task LoadLocationsAsync()
         {
-            var locations = await bookService.GetAllStorageUnitsAsync();
+            var locations =  bookService.GetFreeStorageUnitsAsync();
+            if (locations.Count() == 0)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No free storage units available", "OK");
+                return;
+            }
             foreach (var l in locations)
             {
                 LocationsList.Add(l);

@@ -56,7 +56,11 @@ namespace Books.Services
         {
             return await unitOfWork.StorageUnits.GetAllAsync();
         }
-
+        public IEnumerable<StorageUnit> GetFreeStorageUnitsAsync()
+        {
+            Expression<Func<StorageUnit, bool>> f = (p => p.Book == null);
+            return unitOfWork.StorageUnits.Find(f);
+        }
         public async Task<Book> GetBookById(int id)
         {
             return await unitOfWork.Books.GetByIdAsync(id);
@@ -67,6 +71,8 @@ namespace Books.Services
             Expression<Func<Book, bool>> f = (p => p.Title.StartsWith(name));
             return unitOfWork.Books.Find(f);
         }
+
+
 
         public async Task<Genre> GetGenreById(int id)
         {
