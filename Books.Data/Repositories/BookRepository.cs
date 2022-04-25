@@ -1,10 +1,9 @@
 ﻿using Books.Core.Models;
 using Books.Core.Repositories;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.Data.Sqlite;
 
 namespace Books.Data.Repositories
 {
@@ -18,43 +17,27 @@ namespace Books.Data.Repositories
 
         public IEnumerable<Book> BookSearch(string query)
         {
-            //var booksByAuthor = (from a in dbContext.Authors
-            //                     where a.Name.ToUpper().Contains(query.ToUpper()) || a.LastName.ToUpper().Contains(query.ToUpper())
-            //                     select a.BookList.AsEnumerable()).FirstOrDefault();
-            //var booksByGenre = (from g in dbContext.Genres
-            //                    where g.Name.ToUpper().Contains(query.ToUpper())
-            //                    select g.Books).FirstOrDefault();
-            //var booksByTitle = (from b in dbContext.Books
-            //                    where b.Title.ToUpper().Contains(query.ToUpper())
-            //                    select b).ToList();
-            //var result = new List<Book>();
-            //if(booksByAuthor != null)
-            //    result.AddRange(booksByAuthor);
-            //if(booksByGenre != null)
-            //    result.AddRange(booksByGenre);
-            //if(booksByTitle != null) 
-            //    result.AddRange(booksByTitle);
 
-            //var distResult = result.Distinct().ToList();
-            //return distResult;
+            /* There are a few limitations to be aware of when using raw SQL queries:
+
+            - The SQL query must return data for all properties of the entity type.
+            - The column names in the result set must match the column names that properties are mapped to.
+                Note this behavior is different from EF6. EF6 ignored property to column mapping for raw 
+                SQL queries and result set column names had to match the property names.
+            - The SQL query can't contain related data. However, in many cases you can compose on 
+                top of the query using the Include operator to return related data (see Including related data).
+            */
+
 
             SqliteParameter parameter = new SqliteParameter("query", $"%{query}%");
             var books = Context.Books.FromSqlRaw(@"SELECT * FROM Books
                                                     WHERE Books.Id in
-                                                        (SELECT Books.Id FROM Books
-                                                        WHERE Books.Title LIKE @query
-                                                        UNION
-
-                                                        SELECT Books.Id FROM Books
+                                                        (SELECT DISTINCT Books.Id FROM Books 
                                                         JOIN BookGenre on Books.Id = BookGenre.BooksId
                                                         JOIN Genres on BookGenre.GenresId = Genres.Id
-                                                        WHERE Genres.Name like @query
-                                                        UNION
-
-                                                        SELECT books.Id FROM Books
-                                                        join AuthorBook on Books.Id = AuthorBook.BookListId
-                                                        join Authors on AuthorBook.AuthorsId = Authors.Id
-                                                        where Authors.Name || Authors.LastName like @query)", parameter).AsEnumerable();
+                                                        JOIN AuthorBook on Books.Id = AuthorBook.BookListId
+                                                        JOIN Authors on AuthorBook.AuthorsId = Authors.Id
+                                                        WHERE Books.Title || Genres.Name || Authors.Name || Authors.LastName LIKE @query)", parameter).AsEnumerable();
             return books;
         }
         public async void UpdateBook(Book newBook)
