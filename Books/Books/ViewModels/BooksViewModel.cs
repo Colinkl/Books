@@ -35,7 +35,7 @@ namespace Books.ViewModels
             BookTapped = new Command<Book>(OnBookSelected);
             AddBookCommand = new Command(OnBookAdd);
             LoadBooksCommand = new Command(async () => await ExecuteLoadBooksCommand());
-            PerformSearch = new Command<string>(OnPerformSearchAsync);
+            PerformSearch = new Command<string>(OnPerformSearch);
         }
 
         public void OnAppearing()
@@ -95,7 +95,7 @@ namespace Books.ViewModels
 
 
 
-        private void OnPerformSearchAsync(string query)
+        private void OnPerformSearch(string query)
         {
             var books = bookService.BookSearch(query);
             BooksList.Clear();

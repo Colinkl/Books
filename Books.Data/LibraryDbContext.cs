@@ -33,8 +33,6 @@ namespace Books.Data
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, "data.db3");
 
             optionsBuilder
-                .UseLazyLoadingProxies()
-                .EnableSensitiveDataLogging()
                 .UseSqlite($"Filename={dbPath}")
                 .LogTo(System.Console.WriteLine);
 

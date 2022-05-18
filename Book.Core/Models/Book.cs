@@ -21,17 +21,17 @@ namespace Books.Core.Models
         public string Image { get; set; }
 
 
-        public virtual List<Author> Authors { get; set; } = new List<Author>();
+        public List<Author> Authors { get; set; } = new List<Author>();
 
-        public virtual List<Genre> Genres { get; set; }
+        public List<Genre> Genres { get; set; }
 
         public int LocationId { get; set; }
 
-        public virtual StorageUnit Location { get; set; }
+        public StorageUnit Location { get; set; }
 
         [ForeignKey("User")]
         public int AddedByUserId { get; set; }
-        public virtual User AddedBy { get; set; }
+        public User AddedBy { get; set; }
 
 
         public override bool Equals(object obj)

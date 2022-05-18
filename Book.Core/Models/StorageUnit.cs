@@ -13,7 +13,7 @@ namespace Books.Core.Models
         public int Rack { get; set; }
 
 
-        public virtual Book Book { get; set; }
+        public  Book Book { get; set; }
 
 
         public string Text

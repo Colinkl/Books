@@ -18,12 +18,12 @@ namespace Books.Data.Repositories
             Context = DependencyService.Get<LibraryDbContext>();
         }
 
-        public async ValueTask<T> GetByIdAsync(int id)
+        public virtual async ValueTask<T> GetByIdAsync(int id)
         {
             return await Context.Set<T>().FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await Context.Set<T>().ToArrayAsync();
         }

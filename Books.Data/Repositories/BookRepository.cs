@@ -4,6 +4,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Books.Data.Repositories
 {
@@ -13,6 +14,16 @@ namespace Books.Data.Repositories
         public BookRepository(LibraryDbContext context)
         {
             this.dbContext = context;
+        }
+
+        public override async ValueTask<Book> GetByIdAsync(int id)
+        {
+            return await dbContext.Books.Include(a => a.Authors).Include(g=> g.Genres).Include(l=> l.Location).Include(u => u.AddedBy).Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public override async Task<IEnumerable<Book>> GetAllAsync()
+        {
+            return await dbContext.Books.Include(a => a.Authors).Include(g => g.Genres).Include(l => l.Location).Include(u => u.AddedBy).ToArrayAsync();
         }
 
         public IEnumerable<Book> BookSearch(string query)

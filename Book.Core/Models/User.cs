@@ -17,7 +17,7 @@ namespace Books.Core.Models
         public string Image { get; set; }
 
 
-        public virtual List<Book> Books { get; set; }
+        public List<Book> Books { get; set; }
 
     }
 }

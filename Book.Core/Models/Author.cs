@@ -17,7 +17,7 @@ namespace Books.Core.Models
 
 
 
-        public virtual List<Book> BookList { get; set; } = new List<Book>();
+        public List<Book> BookList { get; set; } = new List<Book>();
 
 
         public string FullName
