@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTest", "BookTest\BookTest.csproj", "{655AE594-DA45-48FF-B243-EB211CAE4825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTest", "BookTest\BookTest.csproj", "{655AE594-DA45-48FF-B243-EB211CAE4825}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1730C894-7D60-4520-808D-86EF2061AB21} = {1730C894-7D60-4520-808D-86EF2061AB21}
 	EndProjectSection

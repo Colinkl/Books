@@ -19,6 +19,10 @@ namespace Books.Data
         {
             _context = DependencyService.Get<LibraryDbContext>();
         }
+        public UnitOfWork(LibraryDbContext context)
+        {
+            _context = context;
+        }
 
         public IAuthorRepository Authors => authorRepository ??= new AuthorRepository(_context);
 

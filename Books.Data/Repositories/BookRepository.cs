@@ -11,7 +11,7 @@ namespace Books.Data.Repositories
     public class BookRepository : Repository<Book>, IBookRepository
     {
         private readonly LibraryDbContext dbContext;
-        public BookRepository(LibraryDbContext context)
+        public BookRepository(LibraryDbContext context) : base(context)
         {
             this.dbContext = context;
         }

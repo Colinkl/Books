@@ -6,7 +6,7 @@ namespace Books.Data.Repositories
 {
     public class AuthorRepository : Repository<Author>, IAuthorRepository
     {
-        public AuthorRepository(DbContext context)
+        public AuthorRepository(LibraryDbContext context) : base(context)
         {
 
         }

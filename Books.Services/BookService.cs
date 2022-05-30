@@ -17,6 +17,11 @@ namespace Books.Services
             unitOfWork = DependencyService.Get<IUnitOfWork>();
         }
 
+        public BookService(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+
         public IEnumerable<Book> BookSearch(string query)
         {
            return  unitOfWork.Books.BookSearch(query);

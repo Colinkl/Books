@@ -18,6 +18,11 @@ namespace Books.Services
             unitOfWork = DependencyService.Get<IUnitOfWork>();
         }
 
+        public AuthorService(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+
         public async Task CreateAuthor(Author newAuthor)
         {
             await unitOfWork.Authors.AddAsync(newAuthor);

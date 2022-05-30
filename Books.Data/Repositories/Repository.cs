@@ -17,6 +17,10 @@ namespace Books.Data.Repositories
         {
             Context = DependencyService.Get<LibraryDbContext>();
         }
+        public Repository(LibraryDbContext context)
+        {
+            Context = context;
+        }
 
         public virtual async ValueTask<T> GetByIdAsync(int id)
         {

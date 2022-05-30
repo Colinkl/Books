@@ -20,6 +20,13 @@ namespace Books.Data
 
 
 
+        public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
+        {
+            SQLitePCL.Batteries_V2.Init();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
+
         public LibraryDbContext()
         {
             SQLitePCL.Batteries_V2.Init();
@@ -27,15 +34,16 @@ namespace Books.Data
             Database.EnsureCreated();
         }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "data.db3");
+            if (!optionsBuilder.IsConfigured)
+            {
+                string dbPath = Path.Combine(FileSystem.AppDataDirectory, "data.db3");
 
-            optionsBuilder
-                .UseSqlite($"Filename={dbPath}")
-                .LogTo(System.Console.WriteLine);
-
+                optionsBuilder
+                    .UseSqlite($"Filename={dbPath}")
+                    .LogTo(System.Console.WriteLine);
+            }
 
         }
 
