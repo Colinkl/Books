@@ -27,7 +27,6 @@ namespace BookTest
             .Options;
 
             using var context = new LibraryDbContext(_contextOptions);
-
         }
 
         LibraryDbContext CreateContext() => new LibraryDbContext(_contextOptions);
@@ -53,6 +52,30 @@ namespace BookTest
             Assert.AreEqual("Woof", book1.Title);
         }
 
+        [TestMethod]
+        public async Task GetAllBooks()
+        {
+            var service = CreateBookService();
+            var book1 = await service.GetAllBooks();
 
+            Assert.IsTrue(book1.ToList().Count > 0);            
+        }
+
+        [TestMethod]
+        public void BookSearch()
+        {
+            var service = CreateBookService();
+            var book1 =  service.BookSearch("Comedy");
+            Assert.AreEqual(1,book1.ToList().Count);
+            Assert.AreEqual("Meow",book1.FirstOrDefault().Title);
+        }
+
+        [TestMethod]
+        public void BookSearch2()
+        {
+            var service = CreateBookService();
+            var book1 = service.BookSearch("Drama");
+            Assert.IsTrue(book1.ToList().Count == 2);
+        }
     }
 }
